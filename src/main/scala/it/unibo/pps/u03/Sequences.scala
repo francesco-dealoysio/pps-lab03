@@ -32,8 +32,21 @@ object Sequences: // Essentially, generic linkedlists
      * E.g., [10, 20, 30], 0 => [10, 20, 30]
      * E.g., [], 2 => []
      */
-    def skip[A](s: Sequence[A])(n: Int): Sequence[A] = ???
+    def skip[A](s: Sequence[A])(n: Int): Sequence[A] = s match
+      case Cons(h, t) if n > 0 => skip(t)(n - 1)
+      case Cons(h, t)          => Cons(h, t)
+      case Nil()               => Nil()
 
+/*
+    @annotation.tailrec
+    def loop(remaining: Int, reversed: Int): Int =
+      if remaining == 0 then
+        reversed
+      else
+        loop(remaining / 10, reversed * 10 + remaining % 10)
+
+    loop(n, 0)
+*/
     /*
      * Zip two sequences
      * E.g., [10, 20, 30], [40, 50] => [(10, 40), (20, 50)]
@@ -117,3 +130,4 @@ object Sequences: // Essentially, generic linkedlists
   import Sequence.*
 
   println(sum(map(filter(l)(_ >= 20))(_ + 1))) // 21+31 = 52
+  println(sum(skip(l)(3)))
