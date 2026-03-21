@@ -144,15 +144,19 @@ object Sequences: // Essentially, generic linkedlists
      * E.g., [10, 20, 30] => true if elem is 20
      * E.g., [10, 20, 30] => false if elem is 40
      */
-    def contains[A](s: Sequence[A])(elem: A): Boolean = ???
-
+    def contains[A](s: Sequence[A])(elem: A): Boolean = s match
+      case Cons(h, t) => h == elem || contains(t)(elem)
+      case Nil() => false
     /*
      * Remove duplicates from the sequence
      * E.g., [10, 20, 10, 30] => [10, 20, 30]
      * E.g., [10, 20, 30] => [10, 20, 30]
      */
-    def distinct[A](s: Sequence[A]): Sequence[A] = ???
-
+    def distinct[A](s: Sequence[A]): Sequence[A] = s match
+      case Cons(h, t) =>
+        if contains(t)(h) then distinct(t)
+        else Cons(h, distinct(t))
+      case Nil() => Nil()
     /*
      * Group contiguous elements in the sequence
      * E.g., [10, 10, 20, 30] => [[10, 10], [20], [30]]
