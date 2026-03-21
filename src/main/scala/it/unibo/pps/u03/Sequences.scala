@@ -80,8 +80,8 @@ object Sequences: // Essentially, generic linkedlists
     /* Idea: prendi ogni elemento e lo metti davanti a una nuova lista */
     def reverse[A](s: Sequence[A]): Sequence[A] =
       def rev(curr: Sequence[A], acc: Sequence[A]): Sequence[A] = curr match
-          case Cons(h, t) => rev(t, Cons(h, acc))
-          case Nil() => acc
+        case Cons(h, t) => rev(t, Cons(h, acc))
+        case Nil() => acc
 
       rev(s, Nil())
 
@@ -127,8 +127,9 @@ object Sequences: // Essentially, generic linkedlists
 
     /*
      * Get the minimum element in the sequence
-     * E.g., [30, 20, 10] => 10
-     * E.g., [10, 1, 30] => 1
+     * E.g., [30, 20, 10] => Just(10)
+     * E.g., [10, 1, 30] => Just(1)
+     * E.g., [] => Empty()
      */
     def min(s: Sequence[Int]): Optional[Int] =
       def searchMin(s: Sequence[Int], oldMin: Int): Int = s match
@@ -156,25 +157,28 @@ object Sequences: // Essentially, generic linkedlists
 
       reverse(even(s, Nil(), 0))
 
-
-
-
-
-
-
     /*
      * Check if the sequence contains the element
      * E.g., [10, 20, 30] => true if elem is 20
      * E.g., [10, 20, 30] => false if elem is 40
      */
-    def contains[A](s: Sequence[A])(elem: A): Boolean = ???
+    def contains[A](s: Sequence[A])(elem: A): Boolean = s match
+      case Cons(h, t) => h == elem || contains(t)(elem)
+      case Nil()      => false
 
     /*
      * Remove duplicates from the sequence
      * E.g., [10, 20, 10, 30] => [10, 20, 30]
      * E.g., [10, 20, 30] => [10, 20, 30]
      */
-    def distinct[A](s: Sequence[A]): Sequence[A] = ???
+    def distinct[A](s: Sequence[A]): Sequence[A] =
+      def dist(curr: Sequence[A], acc: Sequence[A]): Sequence[A] = curr match
+        case Cons(h, t) =>
+          if contains(acc)(h) then dist(t, acc)
+          else dist(t, Cons(h, acc))
+        case Nil() => acc
+
+      reverse(dist(s, Nil()))
 
     /*
      * Group contiguous elements in the sequence
@@ -189,7 +193,9 @@ object Sequences: // Essentially, generic linkedlists
      * E.g., [10, 20, 30] => ([10], [20, 30]) if pred is (_ < 20)
      * E.g., [11, 20, 31] => ([20], [11, 31]) if pred is (_ % 2 == 0)
      */
-    def partition[A](s: Sequence[A])(pred: A => Boolean): (Sequence[A], Sequence[A]) = ???
+    def partition[A](s: Sequence[A])(pred: A => Boolean): (Sequence[A], Sequence[A]) =
+      val neg: (A => Boolean) => (A => Boolean) = f => (s => !f(s))
+      (filter(s)(pred), filter(s)(neg(pred)))
 
 @main def trySequences =
   import Sequences.* 
@@ -205,5 +211,9 @@ object Sequences: // Essentially, generic linkedlists
   val pairs: Sequence[(Int, String)] = Sequence.Cons((10, "ten"), Sequence.Cons((20, "twenty"), Sequence.Cons((30, "thirty"), Sequence.Nil())))
 
   println(pairs)
+  val l3 = Sequence.Cons(10, Sequence.Cons(20, Sequence.Cons(10, Sequence.Nil())))
+  println(filter(l3)(_ > 10))
 
-  //zip(l, l2)
+
+
+//zip(l, l2)
