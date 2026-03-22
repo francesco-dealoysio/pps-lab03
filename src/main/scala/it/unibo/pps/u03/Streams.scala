@@ -37,7 +37,9 @@ object Streams extends App :
     def iterate[A](init: => A)(next: A => A): Stream[A] =
       cons(init, iterate(next(init))(next))
 
-    // Task 3
+    // --------------
+    // Lab 3 - part 3
+    // --------------
     def takeWhile[A](stream: Stream[A])(pred: A => Boolean): Stream[A] = stream match
       case Cons(head, tail) if pred(head()) => cons(head(), takeWhile(tail())(pred))
       case _ => Empty()
@@ -50,8 +52,8 @@ object Streams extends App :
       def fib(a: Int, b: Int): Stream[Int] =
         cons(a, fib(b, a + b))
 
-      fib(0, 1)
-      // fine Task 3
+      fib(0, 1) 
+    // fine Lab 3
       
   end Stream
 

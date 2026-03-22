@@ -2,6 +2,9 @@ package u03
 
 import u03.Optionals.*
 import u03.Optionals.Optional
+import u03.Streams.Stream
+
+import scala.annotation.tailrec
 
 object Sequences: // Essentially, generic linkedlists
 
@@ -26,7 +29,7 @@ object Sequences: // Essentially, generic linkedlists
       case Cons(_, t)            => filter(t)(pred)
       case Nil()                 => Nil()
 
-    // Lab 03
+    // Lab 03 - Part 1
 
     /*
      * Skip the first n elements of the sequence
@@ -96,8 +99,8 @@ object Sequences: // Essentially, generic linkedlists
 
       val result = searchMin(s, Int.MaxValue)
       result match
-      case Int.MaxValue => Empty()
-      case _ => Just(result)
+        case Int.MaxValue => Empty()
+        case _ => Just(result)
 
     /*
      * Get the elements at even indices
@@ -159,13 +162,5 @@ object Sequences: // Essentially, generic linkedlists
       val neg: (A => Boolean) => (A => Boolean) = f => (s => !f(s))
       (filter(s)(pred), filter(s)(neg(pred)))
 
-@main def trySequences =
-/*
-  import Sequences.*
-  import Sequence.*
-
-  val l = Sequence.Cons(10, Sequence.Cons(20, Sequence.Cons(30, Sequence.Nil())))
-  println(Sequence.sum(l)) // 60
-  println(sum(map(filter(l)(_ >= 20))(_ + 1))) // 21+31 = 52
- */
-  println("nop")
+  @main def trySequences =
+    println("nop")

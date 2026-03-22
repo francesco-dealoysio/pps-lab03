@@ -21,14 +21,16 @@ object Task2:
 
   def countDistinctTeacherCourses(persons: Sequence[Person]): Int =
     val courses = teacherCourses(persons)
-    val uniqueCourses = Sequence.distinct(courses)
-    foldLeft(uniqueCourses)(0)((acc, _) => acc + 1)
+    val distinctCourses = Sequence.distinct(courses)
+    foldLeft(distinctCourses)(0)((acc, _) => acc + 1)
 
 @main def tryTask2 =
   import it.unibo.pps.u02.Modules.Person
   import it.unibo.pps.u02.Modules.Person.*
   import u03.Sequences.*
   import Sequence.*
+
+  val lst = Cons(3, Cons(7, Cons(1, Cons(5, Nil()))))
 
   val persons: Sequence[Person] =
     Cons(Teacher("Viroli", "PPS"),
@@ -41,7 +43,6 @@ object Task2:
       )
     )
 
-  
-  
-  println(Task2.teacherCourses(persons)) // Cons("PPS",Cons("PPS",Cons("PCD",Nil())))
-  println(Task2.countDistinctTeacherCourses(persons)) // 2
+  println(s"\nfoldLeft............: ${Task2.foldLeft(lst)(0)(_ - _)}") // -16
+  println("teacherCourses......: " + Task2.teacherCourses(persons)) // Cons("PPS",Cons("PPS",Cons("PCD",Nil())))
+  println("countDistinctCourses: " + Task2.countDistinctTeacherCourses(persons)) // 2

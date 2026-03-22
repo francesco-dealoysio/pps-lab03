@@ -3,7 +3,7 @@ package it.unibo.pps.u03
 import org.junit.*
 import org.junit.Assert.*
 
-class Task2Test:
+class Task2Test_old:
   import it.unibo.pps.u03.Task2.*
   import it.unibo.pps.u02.Modules.Person
   import it.unibo.pps.u02.Modules.Person.*
