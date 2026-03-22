@@ -37,6 +37,22 @@ object Streams extends App :
     def iterate[A](init: => A)(next: A => A): Stream[A] =
       cons(init, iterate(next(init))(next))
 
+    // Task 3
+    def takeWhile[A](stream: Stream[A])(pred: A => Boolean): Stream[A] = stream match
+      case Cons(head, tail) if pred(head()) => cons(head(), takeWhile(tail())(pred))
+      case _ => Empty()
+
+    def fill[A](n: Int)(k: A): Stream[A] =
+      if n > 0 then cons(k, fill(n - 1)(k))
+      else Empty()
+
+    val fibonacci: Stream[Int] =
+      def fib(a: Int, b: Int): Stream[Int] =
+        cons(a, fib(b, a + b))
+
+      fib(0, 1)
+      // fine Task 3
+      
   end Stream
 
 @main def tryStreams =
@@ -50,3 +66,9 @@ object Streams extends App :
 
   lazy val corec: Stream[Int] = Stream.cons(1, corec) // {1,1,1,..}
   println(Stream.toList(Stream.take(corec)(10))) // [1,1,..,1]
+  
+  // Task 3  
+  println(Stream.toList(Stream.takeWhile(str1)(_ < 5)))
+  println(Stream.toList(Stream.fill(3)("a")))
+  println(Stream.toList(Stream.take(Stream.fibonacci)(6)))
+  // fine Task 3
